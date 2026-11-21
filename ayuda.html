@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Manual de usuario, reglas del dominó español y guía de accesibilidad para lectores de pantalla. Autor: José Manuel Fernández Cortés.">
+    <title>Manual de Juego y Accesibilidad - Dominó para Todos</title>
+    <link rel="stylesheet" href="estilos.css?v=20261119_2235">
+    <style>
+        .pagina-ayuda {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            padding-bottom: 3rem;
+        }
+        .tarjeta-autor {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.95));
+            border: 2px solid var(--primario);
+            border-radius: 12px;
+            padding: 1.5rem 2rem;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+        }
+        .tarjeta-autor h2 {
+            margin-top: 0;
+            color: var(--primario);
+            font-size: 1.5rem;
+        }
+        .nombre-autor {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: #38bdf8;
+            margin: 0.5rem 0;
+        }
+        .seccion-manual {
+            background-color: var(--tarjeta-bg);
+            border: 2px solid var(--borde-suave);
+            border-radius: 12px;
+            padding: 2rem;
+            line-height: 1.7;
+        }
+        .seccion-manual h2 {
+            margin-top: 0;
+            color: var(--primario);
+            border-bottom: 2px solid var(--borde-suave);
+            padding-bottom: 0.5rem;
+        }
+        .seccion-manual h3 {
+            color: #93c5fd;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .seccion-manual ul, .seccion-manual ol {
+            margin: 0.75rem 0 1.25rem 1.75rem;
+        }
+        .seccion-manual li {
+            margin-bottom: 0.5rem;
+        }
+        .barra-volver {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Barra superior -->
+    <header class="barra-superior" role="banner">
+        <div class="logo-area">
+            <h1><span aria-hidden="true">🁢</span> Dominó para Todos</h1>
+            <span class="badge">Manual de Juego y Accesibilidad</span>
+        </div>
+        <nav class="controles-accesibilidad" aria-label="Navegación y accesibilidad">
+            <a href="index.html" class="btn-accesible">
+                <span aria-hidden="true">🏠</span> Volver al Juego
+            </a>
+            <button type="button" id="btn-alto-contraste" class="btn-accesible" aria-pressed="false">
+                <span aria-hidden="true">👁️</span> Alto Contraste
+            </button>
+        </nav>
+    </header>
+
+    <main class="contenedor-principal" id="contenido-principal" role="main">
+        <div class="pagina-ayuda">
+
+            <!-- Ficha del Autor y Créditos -->
+            <section class="tarjeta-autor" aria-labelledby="titulo-creditos">
+                <h2 id="titulo-creditos">Créditos y Autoría</h2>
+                <p>Juego concebido, desarrollado y adaptado para accesibilidad universal por:</p>
+                <p class="nombre-autor">José Manuel Fernández Cortés</p>
+                <p class="texto-ayuda" style="margin-bottom: 0;">
+                    Diseñado para garantizar una experiencia de juego de dominó online plenamente accesible mediante teclado y compatible con todos los lectores de pantalla (NVDA, JAWS, VoiceOver en iOS/Mac y TalkBack en Android).
+                </p>
+            </section>
+
+            <!-- Sección 1: Reglas del Dominó Español -->
+            <article class="seccion-manual" aria-labelledby="titulo-reglas">
+                <h2 id="titulo-reglas">1. Reglas Tradicionales del Dominó Español</h2>
+                
+                <h3>El juego de 28 fichas</h3>
+                <h3>El juego de 28 fichas y nomenclatura tradicional</h3>
+                <p>
+                    Se juega con el juego clásico de 28 fichas rectangulares que van desde la ficha blanca doble (0-0) hasta el doble seis (6-6). Siguiendo la tradición del dominó español, el número 0 se denomina siempre <strong>"blanca"</strong> (por ejemplo: <em>"blanca 4"</em>, <em>"6 blanca"</em>, <em>"doble blanca"</em>).
+                </p>
+
+                <h3>Número de jugadores y modalidades</h3>
+                <ul>
+                    <li><strong>Partidas de 2 jugadores:</strong> Cada jugador recibe 7 fichas. Quedan 14 fichas en el pozo para robar.</li>
+                    <li><strong>Partidas de 3 jugadores:</strong> Cada jugador recibe 7 fichas. Quedan 7 fichas en el pozo para robar.</li>
+                    <li><strong>Partidas de 4 jugadores (Individual):</strong> Cada jugador recibe 7 fichas. No hay pozo; se reparten las 28 fichas en la mesa y juegan todos contra todos.</li>
+                    <li><strong>Partidas de 4 jugadores (Por Parejas):</strong> Los jugadores se alternan por equipos (Pareja 1 y Pareja 2). Cada jugador tiene a su compañero enfrente y la puntuación se acumula por parejas.</li>
+                </ul>
+                <p>
+                    <strong>Control estricto de inicio:</strong> Una sala de juego solo puede comenzarse cuando se hayan completado exactamente todas sus plazas (2 de 2, 3 de 3 o 4 de 4), garantizando que las 7 fichas de cada participante y el pozo se distribuyan con total fidelidad a las reglas.
+                </p>
+
+                <h3>Regla Oficial de los 5 Dobles (Anulación y Nuevo Reparto)</h3>
+                <p>
+                    De acuerdo con el reglamento tradicional y de competición de la Federación de Dominó, si al repartir las fichas iniciales cualquier jugador (humano o máquina) obtiene <strong>5 o más dobles</strong> en su mano de 7 fichas, la mano queda automáticamente anulada. El sistema anuncia de viva voz dicha eventualidad a todos los jugadores en la mesa, devuelve las 28 fichas al pozo, baraja nuevamente y reinicia el reparto de forma totalmente transparente.
+                </p>
+
+                <h3>Orden Estratégico de las Fichas en Mano (Jugadores Humanos)</h3>
+                <p>
+                    Para facilitar la toma rápida de decisiones tácticas y permitir una exploración sumamente ágil con lector de pantalla (NVDA, JAWS, VoiceOver, TalkBack), las fichas de los jugadores humanos se ordenan automáticamente según la doctrina estratégica tradicional:
+                </p>
+                <ol>
+                    <li><strong>Los dobles primero:</strong> Situados al principio de la mano. Se priorizan por la fuerza de su palo (aquél del que posees más fichas de apoyo) y secundariamente por el valor del doble.</li>
+                    <li><strong>Acompañantes de los dobles:</strong> Fichas que comparten número con los dobles que tienes en mano, agrupadas empezando por las del doble más fuerte y respaldado.</li>
+                    <li><strong>Números repetidos sin doble:</strong> Fichas que comparten números entre sí formando series de ataque o apoyo sin tener el doble (por ejemplo, si tienes 2-3 y 2-4 irán a continuación).</li>
+                    <li><strong>Fichas solitarias o huérfanas:</strong> Números que no se repiten en ninguna otra ficha de tu mano; por táctica clásica son las que se reservan para el final para aguantar la mano, defender o descartar oportunamente.</li>
+                </ol>
+                <p>
+                    <strong>Reordenación dinámica continua:</strong> Cada vez que juegues una ficha o robes del pozo, tu mano vuelve a seguir automáticamente este criterio de ordenación, recalculando las series y palos según las fichas que te queden en ese instante.
+                </p>
+
+                <h3>Oponentes Inteligentes: Máquinas Expertas en Dominó Tradicional</h3>
+                <p>
+                    El juego cuenta con un avanzado motor algorítmico diseñado según los tratados estratégicos del dominó por parejas y las directrices de la <strong>Federación Española de Dominó (FED)</strong> y los principios tácticos del maestro <strong>Ignacio Zaibert</strong>:
+                </p>
+                <ul>
+                    <li><strong>Conteo de Fichas Vivas:</strong> Rastreo matemático de las 28 fichas y los 7 números de cada palo para deducir qué fichas permanecen ocultas en cada instante.</li>
+                    <li><strong>Mapeo de Fallas:</strong> Registro de los pases de cada jugador para castigar los palos donde los rivales no tienen juego y forzarlos a pasar.</li>
+                    <li><strong>Estrategia de Parejas (2 contra 2):</strong> Respeto absoluto a la salida del compañero ("abrirle su palo"), protección de sus puntos y bloqueo implacable del salidor rival ("matar la salida").</li>
+                    <li><strong>Táctica de la Cuadratura:</strong> Solo cuadra la mesa (dejar ambos extremos con el mismo número) cuando el equipo posee la mayoría de fichas restantes de ese palo, asegurando el control total.</li>
+                    <li><strong>Cálculo Matemático del Tranque:</strong> Evaluación probabilística antes de forzar un cierre para garantizar la victoria por tanteo de puntos.</li>
+                    <li><strong>Descarga de Dobles Pesados:</strong> Desprendimiento prioritario de dobles altos y fichas comprometidas para minimizar pérdidas.</li>
+                </ul>
+
+                <h3>La salida (primer turno)</h3>
+                <p>
+                    En la primera ronda sale el jugador que tenga en su mano el doble más alto, que es el doble seis (6-6). Si nadie tuviese el 6-6, saldría el doble cinco (5-5), y así sucesivamente. La jugada de salida queda registrada de inmediato en la mesa y anunciada por el lector de pantalla.
+                </p>
+
+                <h3>Desarrollo del juego y colocación</h3>
+                <p>
+                    Por turnos sucesivos, cada jugador debe colocar una de las fichas de su mano en uno de los dos extremos abiertos de la cadena en el tablero (extremo izquierdo o extremo derecho). El número de uno de los lados de la ficha jugada debe coincidir exactamente con el número del extremo elegido.
+                </p>
+
+                <h3>Robar del pozo y pasar</h3>
+                <ul>
+                    <li><strong>Robo inteligente:</strong> Si en tu turno no tienes ninguna ficha que encaje y aún quedan fichas en el pozo, pulsa el botón <em>Robar</em>. Si la ficha robada encaja en el tablero, el juego la coloca y la anuncia automáticamente. Si no encaja, puedes continuar robando hasta obtener una válida o agotar el pozo.</li>
+                    <li><strong>Pasar:</strong> Si no tienes ninguna ficha jugable y el pozo está vacío (o no hay pozo, como en partidas de 4 jugadores), deberás pulsar el botón <em>Pasar</em> para ceder el turno al siguiente participante.</li>
+                </ul>
+
+                <h3>Fin de la ronda y recuento de puntos</h3>
+                <p>Una ronda puede finalizar de dos formas:</p>
+                <ol>
+                    <li><strong>Por Dominó:</strong> Cuando un jugador coloca su última ficha sobre la mesa. Gana inmediatamente la ronda y se anota la suma de los puntos de todas las fichas que les quedaron en mano a sus rivales.</li>
+                    <li><strong>Por Cierre o Tranque:</strong> Cuando ningún jugador en la mesa puede colocar ninguna ficha y el pozo está agotado. En este caso, cada jugador cuenta la suma de puntos de sus fichas restantes. Gana quien tenga la menor puntuación y se anota los puntos de los contrarios. En caso de empate en parejas, la ronda se declara empatada o favorable a quien fue mano.</li>
+                </ol>
+            </article>
+
+            <!-- Sección 2: Navegación Accesible con Lector de Pantalla -->
+            <article class="seccion-manual" aria-labelledby="titulo-accesibilidad">
+                <h2 id="titulo-accesibilidad">2. Manejo Accesible con Lectores de Pantalla</h2>
+                <p>
+                    Dominó para Todos ha sido construido siguiendo las pautas de accesibilidad WCAG 2.1 AA para brindar una experiencia auditiva ágil, sin interrupciones molestas ni repeticiones innecesarias.
+                </p>
+
+                <h3>Dinámica de turno ágil y respuesta instantánea</h3>
+                <p>
+                    Mientras los demás participantes (sean 1, 2 o 3 jugadores) realizan sus jugadas, el lector de pantalla anuncia de forma concisa cada movimiento (por ejemplo: <em>"Máquina 1 pone 6 5 por la derecha"</em>, <em>"Máquina 2 pasa"</em>).
+                </p>
+                <p>
+                    Al colocar tu ficha, el sistema confirma de inmediato con un limpio <strong>"Ok"</strong>, y la siguiente máquina responde de forma instantánea sin pausas artificiales.
+                </p>
+                <p>
+                    Cuando te vuelve a tocar el turno, el foco del lector se sitúa automáticamente en el encabezado de tu mano:
+                </p>
+                <blockquote>
+                    <strong>"Tienes X fichas"</strong>
+                </blockquote>
+                <p>
+                    Pulsando Tabulador o flechas del teclado entrarás directamente a recorrer tus fichas.
+                </p>
+
+                <h3>Lectura interactiva y concisa de fichas</h3>
+                <p>
+                    Cada botón de ficha en tu mano tiene una descripción rápida y adaptada al estado del tablero, sin palabras de relleno:
+                </p>
+                <ul>
+                    <li><em>"Ficha 4 4, jugable por la derecha"</em></li>
+                    <li><em>"Ficha 6 3, jugable por ambos extremos"</em></li>
+                    <li><em>"Ficha blanca 2, jugable por la izquierda"</em></li>
+                    <li><em>"Ficha 5 1, no encaja actualmente"</em></li>
+                </ul>
+
+                <h3>Elección de extremo asistida</h3>
+                <p>
+                    Si pulsas una ficha que encaja tanto en el extremo izquierdo como en el derecho y ambos números son diferentes, se abrirá un menú accesible para que elijas en qué lado deseas enlazarla (ej: <em>"Jugar por la izquierda en blanca"</em> o <em>"Jugar por la derecha en el 5"</em>).
+                </p>
+
+                <h3>Barra de acciones dinámica y botones de consulta</h3>
+                <p>
+                    En la barra inferior siempre están disponibles los botones de consulta rápida, mientras que las acciones se muestran solo cuando tienen sentido:
+                </p>
+                <ul>
+                    <li><strong>🔊 Tablero:</strong> Anuncia los extremos actuales, el pozo y de quién es el turno.</li>
+                    <li><strong>👥 Jugadores:</strong> Lee la lista de participantes en la mesa y cuántas fichas le quedan a cada uno.</li>
+                    <li><strong>📥 Robar:</strong> Se muestra únicamente si es tu turno, no tienes fichas jugables y hay fichas en el pozo.</li>
+                    <li><strong>⏭️ Pasar:</strong> Se muestra únicamente si es tu turno, no tienes fichas jugables y el pozo está agotado.</li>
+                    <li><strong>🚪 Abandonar:</strong> Permite retirarte de la partida en cualquier momento mediante un diálogo de confirmación seguro.</li>
+                </ul>
+
+                <h3>Enlaces de invitación a amigos</h3>
+                <p>
+                    Al compartir un enlace de sala (por ejemplo: <code>?sala=DOM924</code>), el invitado es recibido con una locución que anuncia la invitación y el foco se coloca automáticamente en el campo de nombre para que solo tenga que escribir su apodo y pulsar Enter para unirse.
+                </p>
+            </article>
+
+            <!-- Sección 3: Estudio del Tablero e Historial tras Finalizar la Partida -->
+            <article class="seccion-manual" aria-labelledby="titulo-estudio-fin">
+                <h2 id="titulo-estudio-fin">3. Estudio del Tablero e Historial al Finalizar la Ronda</h2>
+                <p>
+                    Una vez que la ronda concluye (sea por Dominó o por Tranque), la pantalla final presenta en orden accesible todas las herramientas para reiniciar o analizar la partida:
+                </p>
+                <ol>
+                    <li><strong>Botón "Jugar Otra Partida":</strong> Situado en primer lugar para quienes deseen reiniciar inmediatamente una nueva ronda sin necesidad de hacer scroll.</li>
+                    <li><strong>Todas las jugadas realizadas:</strong> Registro cronológico numerado con cada una de las jugadas efectuadas desde la salida inicial hasta el desenlace (salidas, fichas puestas por la izquierda o derecha, robos y pases), idóneo para revisar la táctica de cada participante.</li>
+                    <li><strong>Fichas en el tablero:</strong> Muestra la cadena entera de fichas colocadas de izquierda a derecha. Cada ficha es accesible individualmente mediante teclado y lector de pantalla (indicando su número de orden y valor, por ejemplo: <em>"Ficha 4 de 16: Ficha 6 4"</em>), junto con el resumen de los extremos finales.</li>
+                </ol>
+                <p>
+                    <strong>¿Cómo consultar una partida jugada en las últimas 24 horas?</strong><br>
+                    Puedes volver a estudiar cualquier partida de las últimas 24 horas en cualquier momento y desde cualquier dispositivo. Simplemente introduce el código de la sala (6 letras) en el formulario <em>"Unirse o Ver Partida"</em> del menú de inicio, o abre directamente su enlace con <code>?sala=CODIGO</code>. El juego cargará al instante el visor de estudio con todas las fichas y jugadas.
+                </p>
+            </article>
+
+            <!-- Sección 4: Atajos de Teclado -->
+            <article class="seccion-manual" aria-labelledby="titulo-atajos">
+                <h2 id="titulo-atajos">4. Atajos de Teclado Globales (PC)</h2>
+                <table class="tabla-atajos" aria-label="Tabla de atajos de teclado del dominó">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="width: 25%;">Tecla</th>
+                            <th scope="col">Acción Accesible</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><kbd>Flechas ← / →</kbd></td>
+                            <td>Navega secuencialmente entre las fichas de tu mano.</td>
+                        </tr>
+                        <tr>
+                            <td><kbd>Enter / Espacio</kbd></td>
+                            <td>Juega la ficha que tengas seleccionada.</td>
+                        </tr>
+                        <tr>
+                            <td><kbd>T</kbd></td>
+                            <td>Anuncia el estado del tablero (extremos izquierdo y derecho, pozo y turno).</td>
+                        </tr>
+                        <tr>
+                            <td><kbd>J</kbd></td>
+                            <td>Anuncia los jugadores de la mesa y cuántas fichas le quedan a cada uno.</td>
+                        </tr>
+                        <tr>
+                            <td><kbd>R</kbd></td>
+                            <td>Roba una ficha del pozo (activo si no tienes fichas que encajen).</td>
+                        </tr>
+                        <tr>
+                            <td><kbd>P</kbd></td>
+                            <td>Pasa (activo si no tienes jugada y el pozo está agotado).</td>
+                        </tr>
+                        <tr>
+                            <td><kbd>Escape</kbd></td>
+                            <td>Cierra ventanas modales abiertas (elección de extremo o guía de atajos).</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </article>
+
+            <!-- Barra inferior para volver al juego -->
+            <div class="barra-volver">
+                <a href="index.html" class="boton boton-primario" style="font-size: 1.15rem; padding: 0.85rem 1.75rem;">
+                    ⬅️ Volver a la Sala de Juego
+                </a>
+                <p class="texto-ayuda">Dominó para Todos - Autor: José Manuel Fernández Cortés</p>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        // Soporte de Alto Contraste en la página de ayuda
+        const btnAltoContraste = document.getElementById('btn-alto-contraste');
+        if (btnAltoContraste) {
+            btnAltoContraste.addEventListener('click', () => {
+                const activo = document.body.classList.toggle('alto-contraste');
+                btnAltoContraste.setAttribute('aria-pressed', activo ? 'true' : 'false');
+                localStorage.setItem('domino_alto_contraste', activo ? '1' : '0');
+            });
+            if (localStorage.getItem('domino_alto_contraste') === '1') {
+                document.body.classList.add('alto-contraste');
+                btnAltoContraste.setAttribute('aria-pressed', 'true');
+            }
+        }
+    </script>
+</body>
+</html>
+

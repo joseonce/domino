@@ -1,0 +1,970 @@
+/* ==========================================================================
+   ESTILOS GENERALES Y ACCESIBILIDAD (WCAG 2.1 AA) - DOMINÓ ESPAÑOL
+   ========================================================================== */
+
+:root {
+    --bg-oscuro: #0f172a;
+    --tarjeta-bg: #1e293b;
+    --borde-suave: #334155;
+    --texto-principal: #f8fafc;
+    --texto-secundario: #94a3b8;
+    --primario: #38bdf8;
+    --primario-hover: #0284c7;
+    --exito: #22c55e;
+    --exito-hover: #16a34a;
+    --peligro: #ef4444;
+    --aviso: #f59e0b;
+    --foco-color: #ffbf47;
+    --ia-color: #a855f7;
+
+    /* Fichas de dominó */
+    --ficha-fondo: #ffffff;
+    --ficha-texto: #0f172a;
+    --ficha-borde: #cbd5e1;
+    --ficha-jugable-borde: #22c55e;
+    --ficha-jugable-sombra: rgba(34, 197, 94, 0.45);
+}
+
+/* Modo Alto Contraste */
+body.alto-contraste {
+    --bg-oscuro: #000000;
+    --tarjeta-bg: #000000;
+    --borde-suave: #ffffff;
+    --texto-principal: #ffffff;
+    --texto-secundario: #ffff00;
+    --primario: #00ffff;
+    --primario-hover: #00cccc;
+    --exito: #00ff00;
+    --exito-hover: #00cc00;
+    --peligro: #ff0000;
+    --aviso: #ffff00;
+    --foco-color: #ffff00;
+    --ia-color: #ff00ff;
+
+    --ficha-fondo: #000000;
+    --ficha-texto: #ffff00;
+    --ficha-borde: #ffffff;
+    --ficha-jugable-borde: #00ff00;
+    --ficha-jugable-sombra: rgba(0, 255, 0, 0.9);
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg-oscuro);
+    color: var(--texto-principal);
+    line-height: 1.6;
+    font-size: 16px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ==========================================================================
+   UTILIDADES DE ACCESIBILIDAD Y FOCO VISIBLE
+   ========================================================================== */
+
+/* Clase para ocultar visualmente contenido manteniendo total lectura para NVDA/VoiceOver */
+.sr-only {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}
+
+.oculto {
+    display: none !important;
+}
+
+/* Indicador de foco de alto contraste obligatorio para navegación por teclado */
+:focus-visible {
+    outline: 3px solid var(--foco-color) !important;
+    outline-offset: 3px !important;
+    box-shadow: 0 0 0 5px rgba(0, 0, 0, 0.6) !important;
+}
+
+/* ==========================================================================
+   BARRA SUPERIOR Y CABECERA
+   ========================================================================== */
+
+.barra-superior {
+    background-color: var(--tarjeta-bg);
+    border-bottom: 2px solid var(--borde-suave);
+    padding: 1rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.logo-area h1 {
+    margin: 0;
+    font-size: 1.4rem;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--primario);
+}
+
+.badge {
+    background-color: #0f766e;
+    color: #ccfbf1;
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 0.2rem 0.6rem;
+    border-radius: 9999px;
+    margin-left: 0.75rem;
+    vertical-align: middle;
+}
+
+.controles-accesibilidad {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.btn-accesible {
+    background-color: transparent;
+    color: var(--texto-principal);
+    border: 2px solid var(--borde-suave);
+    padding: 0.5rem 0.9rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.btn-accesible:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: var(--primario);
+}
+
+/* ==========================================================================
+   CONTENEDOR PRINCIPAL Y PANTALLAS
+   ========================================================================== */
+
+.contenedor-principal {
+    flex: 1;
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 1.5rem;
+}
+
+.tarjeta-seccion {
+    background-color: var(--tarjeta-bg);
+    border: 2px solid var(--borde-suave);
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.tarjeta-seccion h2 {
+    margin-top: 0;
+    color: var(--primario);
+    font-size: 1.6rem;
+}
+
+.descripcion-intro {
+    font-size: 1.1rem;
+    color: var(--texto-secundario);
+    margin-bottom: 2rem;
+}
+
+/* ==========================================================================
+   FORMULARIOS DE INICIO (CREAR / UNIRSE)
+   ========================================================================== */
+
+.grid-inicio {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.caja-formulario {
+    background-color: rgba(15, 23, 42, 0.6);
+    border: 1px solid var(--borde-suave);
+    border-radius: 8px;
+    padding: 1.75rem;
+}
+
+.caja-formulario h3 {
+    margin-top: 0;
+    font-size: 1.3rem;
+    border-bottom: 2px solid var(--primario);
+    padding-bottom: 0.5rem;
+}
+
+.campo-grupo {
+    margin-bottom: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.campo-grupo label {
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.campo-grupo input,
+.campo-grupo select {
+    background-color: #0b1329;
+    border: 2px solid var(--borde-suave);
+    color: #ffffff;
+    padding: 0.75rem;
+    border-radius: 6px;
+    font-size: 1rem;
+    width: 100%;
+}
+
+.texto-ayuda {
+    font-size: 0.85rem;
+    color: var(--texto-secundario);
+}
+
+/* ==========================================================================
+   BOTONES
+   ========================================================================== */
+
+.boton {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 700;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.1s ease, background-color 0.15s;
+    text-decoration: none;
+}
+
+.boton:active {
+    transform: scale(0.98);
+}
+
+.boton:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.boton-primario {
+    background-color: var(--primario);
+    color: #0f172a;
+}
+.boton-primario:hover:not(:disabled) {
+    background-color: var(--primario-hover);
+    color: #ffffff;
+}
+
+.boton-secundario {
+    background-color: #475569;
+    color: #ffffff;
+}
+.boton-secundario:hover:not(:disabled) {
+    background-color: #64748b;
+}
+
+.boton-exito {
+    background-color: var(--exito);
+    color: #052e16;
+}
+.boton-exito:hover:not(:disabled) {
+    background-color: var(--exito-hover);
+    color: #ffffff;
+}
+
+.boton-ia {
+    background-color: var(--ia-color);
+    color: #ffffff;
+}
+.boton-ia:hover:not(:disabled) {
+    background-color: #9333ea;
+}
+
+.boton-accion {
+    background-color: #0284c7;
+    color: #ffffff;
+}
+.boton-accion:hover:not(:disabled) {
+    background-color: #0369a1;
+}
+
+.boton-info {
+    background-color: #334155;
+    color: #f8fafc;
+    border: 1px solid #475569;
+}
+.boton-info:hover:not(:disabled) {
+    background-color: #475569;
+    color: #ffffff;
+}
+
+.boton-peligro {
+    background-color: #dc2626;
+    color: #ffffff;
+    border: 1px solid #b91c1c;
+}
+.boton-peligro:hover:not(:disabled) {
+    background-color: #b91c1c;
+    color: #ffffff;
+}
+
+/* ==========================================================================
+   SALA DE ESPERA
+   ========================================================================== */
+
+.resaltado-codigo {
+    color: var(--foco-color);
+    letter-spacing: 2px;
+    background-color: rgba(0, 0, 0, 0.4);
+    padding: 0.2rem 0.6rem;
+    border-radius: 6px;
+    border: 1px dashed var(--foco-color);
+}
+
+.panel-invitacion {
+    background-color: rgba(15, 23, 42, 0.7);
+    padding: 1.25rem;
+    border-radius: 8px;
+    margin: 1.5rem 0;
+    border: 1px solid var(--borde-suave);
+}
+
+.fila-copiar {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+}
+
+.fila-copiar input {
+    flex: 1;
+    background-color: #0b1329;
+    border: 2px solid var(--borde-suave);
+    color: #ffffff;
+    padding: 0.6rem 0.8rem;
+    border-radius: 6px;
+    font-family: monospace;
+    font-size: 0.95rem;
+}
+
+.info-sala {
+    display: flex;
+    gap: 2rem;
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+}
+
+.lista-jugadores {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0 2rem 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+}
+
+.lista-jugadores li {
+    background-color: #0b1329;
+    border: 2px solid var(--borde-suave);
+    border-radius: 8px;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-weight: 600;
+}
+
+.lista-jugadores li.es-bot {
+    border-color: var(--ia-color);
+}
+
+.acciones-espera {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.selector-bot-caja {
+    display: inline-flex;
+    gap: 0.5rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.campo-select-espera {
+    background-color: var(--tarjeta-bg, #1e293b);
+    color: var(--texto-principal, #f8fafc);
+    border: 2px solid var(--borde-suave, #334155);
+    border-radius: 8px;
+    padding: 0.65rem 0.9rem;
+    font-size: 1rem;
+    font-family: inherit;
+    cursor: pointer;
+}
+
+.campo-select-espera:focus {
+    outline: 3px solid var(--foco-color);
+    outline-offset: 2px;
+}
+
+/* ==========================================================================
+   MESA DE JUEGO
+   ========================================================================== */
+
+.pantalla-juego {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding-bottom: 90px;
+}
+
+.barra-estado-juego {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    background-color: var(--tarjeta-bg);
+    border: 2px solid var(--borde-suave);
+    border-radius: 8px;
+    padding: 1rem 1.5rem;
+}
+
+.estado-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.estado-item .etiqueta {
+    font-size: 0.85rem;
+    color: var(--texto-secundario);
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.estado-item strong {
+    font-size: 1.25rem;
+}
+
+.turno-caja strong {
+    color: var(--foco-color);
+}
+
+.valor-extremo {
+    color: var(--primario);
+}
+
+/* Comentario de Máquinas */
+.comentario-ia {
+    background-color: #2e1065;
+    border: 2px solid var(--ia-color);
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    animation: fadeIn 0.3s ease;
+}
+
+.icono-ia {
+    font-size: 2rem;
+}
+
+.titulo-ia {
+    color: #d8b4fe;
+    font-size: 0.95rem;
+}
+
+.comentario-ia blockquote {
+    margin: 0.25rem 0 0 0;
+    font-style: italic;
+    font-size: 1.1rem;
+    color: #f3e8ff;
+}
+
+/* Rivales en la mesa */
+.grid-rivales {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.tarjeta-rival {
+    background-color: var(--tarjeta-bg);
+    border: 2px solid var(--borde-suave);
+    border-radius: 8px;
+    padding: 0.9rem 1.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.tarjeta-rival.turno-activo {
+    border-color: var(--foco-color);
+    box-shadow: 0 0 12px rgba(255, 191, 71, 0.4);
+}
+
+.tarjeta-rival .nombre-rival {
+    font-weight: bold;
+    font-size: 1.05rem;
+}
+
+.tarjeta-rival .info-fichas {
+    color: var(--texto-secundario);
+    font-size: 0.95rem;
+}
+
+/* ==========================================================================
+   TABLERO CENTRAL DE FICHAS JUGADAS
+   ========================================================================== */
+
+.zona-tablero {
+    background-color: #0b1329;
+    border: 2px solid var(--borde-suave);
+    border-radius: 12px;
+    padding: 1.5rem;
+}
+
+.cabecera-zona {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.cabecera-zona h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    color: var(--primario);
+}
+
+.atajo-pista {
+    font-size: 0.9rem;
+    color: var(--texto-secundario);
+}
+
+kbd {
+    background-color: #334155;
+    color: #f8fafc;
+    padding: 0.15rem 0.45rem;
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 0.9rem;
+    border: 1px solid #475569;
+}
+
+.tablero-fichas-contenedor {
+    overflow-x: auto;
+    padding: 1.5rem 0.5rem;
+    border: 1px dashed var(--borde-suave);
+    border-radius: 8px;
+    min-height: 120px;
+    display: flex;
+    align-items: center;
+}
+
+.cadena-fichas {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 0 auto;
+}
+
+/* ==========================================================================
+   DISEÑO Y RENDERIZADO ACCESIBLE DE FICHAS DE DOMINÓ
+   ========================================================================== */
+
+/* Ficha en el tablero */
+.ficha-tablero {
+    background-color: var(--ficha-fondo);
+    color: var(--ficha-texto);
+    border: 2px solid var(--ficha-borde);
+    border-radius: 6px;
+    width: 48px;
+    height: 90px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    font-weight: 900;
+    font-size: 1.35rem;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+    position: relative;
+    user-select: none;
+    flex-shrink: 0;
+}
+
+.ficha-tablero .mitad {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 50%;
+}
+
+.ficha-tablero .divisor {
+    width: 80%;
+    height: 2px;
+    background-color: #64748b;
+}
+
+/* Ficha doble en tablero (orientación horizontal) */
+.ficha-tablero.doble {
+    width: 70px;
+    height: 50px;
+    flex-direction: row;
+}
+
+.ficha-tablero.doble .divisor {
+    width: 2px;
+    height: 80%;
+}
+
+/* ==========================================================================
+   MANO DEL JUGADOR (BOTONES ACCESIBLES)
+   ========================================================================== */
+
+.zona-mano {
+    background-color: var(--tarjeta-bg);
+    border: 2px solid var(--borde-suave);
+    border-radius: 12px;
+    padding: 1.5rem;
+}
+
+.mano-fichas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 1rem 0;
+    min-height: 130px;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Botón nativo accesible para cada ficha */
+.ficha-btn {
+    background-color: var(--ficha-fondo);
+    color: var(--ficha-texto);
+    border: 3px solid var(--ficha-borde);
+    border-radius: 8px;
+    width: 65px;
+    height: 115px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    font-weight: 900;
+    font-size: 1.6rem;
+    cursor: pointer;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.4);
+    position: relative;
+    transition: transform 0.15s ease, border-color 0.2s, box-shadow 0.2s;
+    padding: 4px;
+}
+
+.ficha-btn:hover:not(:disabled) {
+    transform: translateY(-8px);
+}
+
+.ficha-btn .mitad-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 48%;
+}
+
+.ficha-btn .divisor-btn {
+    width: 85%;
+    height: 2px;
+    background-color: #64748b;
+}
+
+/* Ficha jugable con indicador visual de alto contraste y pulso */
+.ficha-btn.jugable {
+    border-color: var(--ficha-jugable-borde) !important;
+    box-shadow: 0 0 15px var(--ficha-jugable-sombra);
+    cursor: pointer;
+}
+
+.ficha-btn.jugable::after {
+    content: "✓";
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background-color: var(--exito);
+    color: #ffffff;
+    font-size: 0.8rem;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.ficha-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.barra-acciones-jugador {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background-color: var(--tarjeta-bg);
+    padding: 0.75rem 1rem;
+    border-top: 2px solid var(--borde-suave);
+    box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.5);
+    display: flex;
+    gap: 0.75rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* ==========================================================================
+   REGISTRO / HISTORIAL DE MOVIMIENTOS
+   ========================================================================== */
+
+.zona-historial {
+    background-color: rgba(15, 23, 42, 0.5);
+    border: 1px solid var(--borde-suave);
+    border-radius: 8px;
+    padding: 1rem 1.5rem;
+}
+
+.zona-historial h3 {
+    margin-top: 0;
+    font-size: 1.1rem;
+    color: var(--texto-secundario);
+}
+
+.registro-movimientos {
+    max-height: 140px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 0.5rem;
+    font-size: 0.95rem;
+}
+
+.movimiento-linea {
+    padding: 0.35rem 0.5rem;
+    border-radius: 4px;
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* ==========================================================================
+   DIÁLOGOS MODALES ACCESIBLES
+   ========================================================================== */
+
+.modal-fondo {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    padding: 1rem;
+}
+
+.modal-caja {
+    background-color: var(--tarjeta-bg);
+    border: 3px solid var(--primario);
+    border-radius: 12px;
+    padding: 2rem;
+    max-width: 550px;
+    width: 100%;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+}
+
+.modal-caja h3 {
+    margin-top: 0;
+    color: var(--primario);
+    font-size: 1.4rem;
+}
+
+.modal-botones {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    margin-top: 1.5rem;
+}
+
+/* Tabla de atajos */
+.tabla-atajos {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+.tabla-atajos th,
+.tabla-atajos td {
+    padding: 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid var(--borde-suave);
+}
+
+.tabla-atajos th {
+    color: var(--primario);
+}
+
+/* Fin de partida */
+.resultado-fin {
+    background-color: rgba(34, 197, 94, 0.15);
+    border-left: 6px solid var(--exito);
+    padding: 1.5rem;
+    border-radius: 8px;
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin: 1.5rem 0;
+}
+
+.ganador-destacado {
+    font-size: 1.45rem;
+    color: #4ade80;
+    margin: 0 0 0.5rem 0;
+}
+
+.seccion-estudio-fin {
+    margin-top: 1.5rem;
+    padding: 1.25rem;
+    background-color: var(--fondo-suave);
+    border: 1px solid var(--borde-suave);
+    border-radius: 8px;
+}
+
+.encabezado-seccion-fin {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.encabezado-seccion-fin h3 {
+    margin: 0;
+    color: var(--primario);
+    font-size: 1.2rem;
+}
+
+.resumen-extremos-fin {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--texto-secundario);
+}
+
+#tablero-fichas-fin {
+    min-height: 90px;
+    margin-bottom: 0.5rem;
+    overflow-x: auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+#registro-movimientos-fin {
+    max-height: 280px;
+    overflow-y: auto;
+    font-size: 0.95rem;
+}
+
+body.alto-contraste .seccion-estudio-fin {
+    background-color: #000000;
+    border: 2px solid #ffffff;
+}
+
+body.alto-contraste .ganador-destacado {
+    color: #ffff00;
+}
+
+#titulo-mano:focus {
+    outline: 3px solid var(--foco-color);
+    outline-offset: 4px;
+    border-radius: 4px;
+}
+
+.modal-manual-caja {
+    max-width: 680px;
+    max-height: 85vh;
+    overflow-y: auto;
+}
+
+.contenido-manual h4 {
+    margin-top: 1.25rem;
+    margin-bottom: 0.5rem;
+    color: var(--primario);
+}
+
+.contenido-manual ul {
+    margin: 0.5rem 0 1rem 1.5rem;
+    line-height: 1.6;
+}
+
+.contenido-manual li {
+    margin-bottom: 0.4rem;
+}
+
+body.alto-contraste .barra-acciones-jugador {
+    background-color: #000000;
+    border-top: 3px solid #ffffff;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 768px) {
+    #btn-ayuda-atajos {
+        display: none !important;
+    }
+}
+
+@media (max-width: 600px) {
+    .barra-superior {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .mano-fichas {
+        gap: 0.5rem;
+    }
+    .ficha-btn {
+        width: 52px;
+        height: 95px;
+        font-size: 1.3rem;
+    }
+}
+

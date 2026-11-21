@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Dominó para Todos: Juego de Dominó Español multijugador online accesible con Máquinas Expertas. Cumple WCAG 2.1 AA para lectores de pantalla.">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Dominó para Todos - Multijugador Accesible & Máquinas Expertas</title>
+    <link rel="stylesheet" href="estilos.css?v=20261119_2235">
+</head>
+<body>
+    <!-- Regiones ARIA Live para lectores de pantalla (NVDA, VoiceOver, JAWS) -->
+    <div id="anuncio-polite" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+    <div id="anuncio-assertive" class="sr-only" aria-live="assertive" aria-atomic="true"></div>
+
+    <!-- Barra de navegación accesible superior -->
+    <header class="barra-superior" role="banner">
+        <div class="logo-area">
+            <h1><span aria-hidden="true">🁢</span> Dominó para Todos</h1>
+            <span class="badge" id="badge-modo">28 fichas | 0-0 al 6-6</span>
+        </div>
+        <nav class="controles-accesibilidad" aria-label="Controles de accesibilidad y ayuda">
+            <a href="ayuda.html" id="btn-manual" class="btn-accesible" target="_blank" rel="noopener noreferrer">
+                <span aria-hidden="true">📖</span> Manual y Ayuda
+            </a>
+            <button type="button" id="btn-alto-contraste" class="btn-accesible" aria-pressed="false">
+                <span aria-hidden="true">👁️</span> Alto Contraste
+            </button>
+            <button type="button" id="btn-ayuda-atajos" class="btn-accesible" aria-haspopup="dialog">
+                <span aria-hidden="true">⌨️</span> Atajos de Teclado
+            </button>
+        </nav>
+    </header>
+
+    <main class="contenedor-principal" id="contenido-principal" role="main">
+
+        <!-- ================= PANTALLA 1: LOBBY INICIAL ================= -->
+        <section id="pantalla-inicio" class="tarjeta-seccion" aria-labelledby="titulo-bienvenida">
+            <h2 id="titulo-bienvenida">Bienvenido a Dominó para Todos</h2>
+            <p class="descripcion-intro">
+                Juega con amigos mediante enlace de invitación o compite contra Máquinas Expertas en dominó tradicional. 
+                Totalmente adaptado para lectores de pantalla (NVDA, VoiceOver) y operable al 100% mediante teclado.
+            </p>
+
+            <div class="grid-inicio">
+                <!-- Crear Partida -->
+                <article class="caja-formulario" aria-labelledby="titulo-crear">
+                    <h3 id="titulo-crear">Crear Nueva Partida</h3>
+                    <form id="form-crear">
+                        <div class="campo-grupo">
+                            <label for="crear-nombre">Tu Nombre o Apodo:</label>
+                            <input type="text" id="crear-nombre" name="nombre" required placeholder="Ej: Manolo" maxlength="25" autocomplete="name">
+                        </div>
+
+                        <div class="campo-grupo">
+                            <label for="crear-max-jugadores">Número Total de Jugadores:</label>
+                            <select id="crear-max-jugadores" name="max_jugadores">
+                                <option value="2">2 Jugadores (14 fichas en pozo)</option>
+                                <option value="3">3 Jugadores (7 fichas en pozo)</option>
+                                <option value="4" selected>4 Jugadores (sin pozo)</option>
+                            </select>
+                        </div>
+
+                        <div class="campo-grupo" id="grupo-modo">
+                            <label for="crear-modo">Modalidad de Juego:</label>
+                            <select id="crear-modo" name="modo">
+                                <option value="individual">Individual (Todos contra todos)</option>
+                                <option value="parejas">Por Parejas (2 contra 2)</option>
+                            </select>
+                            <small id="nota-modo" class="texto-ayuda">El modo por parejas solo está disponible para partidas de 4 jugadores.</small>
+                        </div>
+
+                        <button type="submit" class="boton boton-primario">
+                            Crear Sala de Juego
+                        </button>
+                    </form>
+                </article>
+
+                <!-- Unirse a Partida -->
+                <article class="caja-formulario" aria-labelledby="titulo-unirse">
+                    <h3 id="titulo-unirse">Unirse a una Partida</h3>
+                    <form id="form-unirse">
+                        <div class="campo-grupo">
+                            <label for="unirse-nombre">Tu Nombre o Apodo:</label>
+                            <input type="text" id="unirse-nombre" name="nombre" required placeholder="Ej: Carmen" maxlength="25" autocomplete="name">
+                        </div>
+
+                        <div class="campo-grupo">
+                            <label for="unirse-codigo">Código de la Sala (para unirte o ver partida finalizada):</label>
+                            <input type="text" id="unirse-codigo" name="codigo" required placeholder="Ej: DOM924" maxlength="6" style="text-transform: uppercase;">
+                        </div>
+
+                        <button type="submit" class="boton boton-secundario">
+                            Unirse o Ver Partida
+                        </button>
+                    </form>
+                </article>
+            </div>
+        </section>
+
+        <!-- ================= PANTALLA 2: SALA DE ESPERA ================= -->
+        <section id="pantalla-espera" class="tarjeta-seccion oculto" aria-labelledby="titulo-espera">
+            <h2 id="titulo-espera">Sala de Espera: Código <span id="espera-codigo" class="resaltado-codigo">------</span></h2>
+            
+            <div class="panel-invitacion" role="region" aria-label="Enlace de invitación">
+                <p>Comparte este enlace con tus amigos para que se unan a la mesa:</p>
+                <div class="fila-copiar">
+                    <input type="text" id="input-enlace-invitacion" readonly aria-label="Enlace de invitación a la sala">
+                    <button type="button" id="btn-copiar-enlace" class="boton boton-accion">
+                        📋 Copiar Enlace
+                    </button>
+                </div>
+                <div id="aviso-copiado" class="sr-only" aria-live="polite"></div>
+            </div>
+
+            <div class="info-sala">
+                <p><strong>Modalidad:</strong> <span id="espera-modo-texto">Individual</span></p>
+                <p><strong>Plazas:</strong> <span id="espera-plazas-texto">0 / 4</span></p>
+            </div>
+
+            <section aria-labelledby="titulo-lista-espera">
+                <h3 id="titulo-lista-espera">Jugadores en la Mesa (<span id="espera-cuenta">0</span>)</h3>
+                <ul id="lista-jugadores-espera" class="lista-jugadores">
+                    <!-- Jugadores añadidos dinámicamente -->
+                </ul>
+            </section>
+
+            <div class="acciones-espera">
+                <button type="button" id="btn-agregar-bot" class="boton boton-ia" aria-label="Añadir Máquina a una plaza vacía">
+                    ➕ Añadir Máquina
+                </button>
+                <button type="button" id="btn-iniciar-partida" class="boton boton-exito" aria-label="Comenzar la partida de dominó" disabled>
+                    ▶️ Comenzar Partida
+                </button>
+            </div>
+            <p id="espera-mensaje-estado" class="texto-ayuda">Esperando que se completen las plazas o que el anfitrión inicie.</p>
+        </section>
+
+        <!-- ================= PANTALLA 3: MESA DE JUEGO ================= -->
+        <section id="pantalla-juego" class="pantalla-juego oculto" aria-label="Mesa de juego de dominó">
+            
+            <!-- Barra de estado del juego -->
+            <section class="barra-estado-juego" aria-label="Estado del turno y tablero" role="region">
+                <div class="estado-item turno-caja" id="caja-turno">
+                    <span class="etiqueta">Turno actual:</span>
+                    <strong id="texto-turno">Cargando...</strong>
+                </div>
+                <div class="estado-item">
+                    <span class="etiqueta">Extremo Izquierdo:</span>
+                    <strong id="texto-extremo-izq" class="valor-extremo">-</strong>
+                </div>
+                <div class="estado-item">
+                    <span class="etiqueta">Extremo Derecho:</span>
+                    <strong id="texto-extremo-der" class="valor-extremo">-</strong>
+                </div>
+                <div class="estado-item">
+                    <span class="etiqueta">Fichas en el Pozo:</span>
+                    <strong id="texto-pozo-cuenta">0</strong>
+                </div>
+            </section>
+
+            <!-- Resumen de jugadores rivales -->
+            <section class="mesa-rivales" aria-label="Jugadores en la mesa">
+                <h3 class="sr-only">Jugadores rivales y compañeros</h3>
+                <div id="contenedor-rivales" class="grid-rivales" role="list">
+                    <!-- Se llena dinámicamente -->
+                </div>
+            </section>
+
+            <!-- Tablero central con fichas jugadas -->
+            <section class="zona-tablero" aria-labelledby="titulo-tablero">
+                <div class="cabecera-zona">
+                    <h3 id="titulo-tablero">Fichas en el Tablero (<span id="cuenta-tablero">0</span>)</h3>
+                </div>
+                <div id="tablero-fichas-scroll" class="tablero-fichas-contenedor" tabindex="0" role="region" aria-label="Fichas colocadas en el tablero">
+                    <div id="fichas-tablero" class="cadena-fichas">
+                        <!-- Fichas colocadas en orden -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Mi mano de fichas -->
+            <section class="zona-mano" aria-labelledby="titulo-mano">
+                <div class="cabecera-zona">
+                    <h3 id="titulo-mano" tabindex="-1">Tienes 0 fichas</h3>
+                </div>
+
+                <!-- Contenedor accesible de botones de fichas -->
+                <div id="contenedor-mano" class="mano-fichas" role="group" aria-label="Tus fichas de dominó en mano.">
+                    <!-- Botones de fichas nativos generados dinámicamente -->
+                </div>
+
+                <!-- Barra de accesibilidad rápida y acciones de juego (operable en móvil y escritorio) -->
+                <div class="barra-acciones-jugador" role="toolbar" aria-label="Acciones y consultas de juego">
+                    <button type="button" id="btn-estado-tablero" class="boton boton-info" aria-label="Consultar estado del tablero">
+                        🔊 Tablero
+                    </button>
+                    <button type="button" id="btn-resumen-jugadores" class="boton boton-info" aria-label="Consultar jugadores en la mesa">
+                        👥 Jugadores
+                    </button>
+                    <button type="button" id="btn-robar" class="boton boton-accion" aria-label="Robar ficha del pozo" style="display: none;" hidden disabled>
+                        📥 Robar
+                    </button>
+                    <button type="button" id="btn-pasar" class="boton boton-accion" aria-label="Pasar" style="display: none;" hidden disabled>
+                        ⏭️ Pasar
+                    </button>
+                    <button type="button" id="btn-abandonar-partida" class="boton boton-peligro" aria-label="Abandonar la partida">
+                        🚪 Abandonar
+                    </button>
+                </div>
+            </section>
+
+            <!-- Registro / Historial de jugadas accesible -->
+            <section class="zona-historial" aria-labelledby="titulo-historial">
+                <h3 id="titulo-historial">Últimos Movimientos</h3>
+                <div id="registro-movimientos" class="registro-movimientos">
+                    <!-- Lista de jugadas -->
+                </div>
+            </section>
+        </section>
+
+        <!-- ================= PANTALLA 4: FIN DE PARTIDA ================= -->
+        <section id="pantalla-fin" class="tarjeta-seccion oculto" aria-labelledby="titulo-fin">
+            <h2 id="titulo-fin">Fin de la Partida</h2>
+            
+            <div id="resultado-fin-caja" class="resultado-fin" role="status" aria-live="assertive">
+                <!-- Se llena con el texto del ganador y puntos -->
+            </div>
+
+            <div class="acciones-fin" style="margin-bottom: 1.5rem;">
+                <button type="button" id="btn-nueva-partida" class="boton boton-primario">
+                    🔄 Jugar Otra Partida
+                </button>
+            </div>
+
+            <!-- Historial completo de todas las jugadas realizadas para estudio -->
+            <section class="seccion-estudio-fin" aria-labelledby="titulo-historial-fin">
+                <div class="encabezado-seccion-fin">
+                    <h3 id="titulo-historial-fin">Todas las Jugadas Realizadas</h3>
+                </div>
+                <div id="registro-movimientos-fin" class="registro-movimientos" role="log" aria-label="Historial completo de jugadas de la partida para estudio" tabindex="0">
+                    <!-- Lista completa de movimientos -->
+                </div>
+            </section>
+
+            <!-- Fichas colocadas en el tablero al final de la ronda para estudio -->
+            <section class="seccion-estudio-fin" aria-labelledby="titulo-tablero-fin">
+                <div class="encabezado-seccion-fin">
+                    <h3 id="titulo-tablero-fin">Fichas en el Tablero (<span id="cuenta-tablero-fin">0</span>)</h3>
+                    <p id="extremos-tablero-fin" class="resumen-extremos-fin">Extremo izquierdo: - | Extremo derecho: -</p>
+                </div>
+                <div id="tablero-fichas-fin" class="tablero-domino" role="region" aria-label="Tablero final con todas las fichas colocadas" tabindex="0">
+                    <!-- Fichas renderizadas del tablero final -->
+                </div>
+            </section>
+        </section>
+
+    </main>
+
+    <!-- ================= DIÁLOGO MODAL: ELEGIR EXTREMO ================= -->
+    <div id="modal-extremo" class="modal-fondo oculto" role="dialog" aria-modal="true" aria-labelledby="modal-extremo-titulo" aria-describedby="modal-extremo-desc">
+        <div class="modal-caja">
+            <h3 id="modal-extremo-titulo">¿En qué extremo deseas jugar la ficha?</h3>
+            <p id="modal-extremo-desc">
+                La ficha seleccionada encaja tanto en el extremo izquierdo como en el extremo derecho del tablero.
+            </p>
+            <div class="modal-botones">
+                <button type="button" id="btn-extremo-izq" class="boton boton-primario">
+                    ⬅️ Jugar por la Izquierda (Extremo <span id="num-extremo-izq"></span>)
+                </button>
+                <button type="button" id="btn-extremo-der" class="boton boton-primario">
+                    ➡️ Jugar por la Derecha (Extremo <span id="num-extremo-der"></span>)
+                </button>
+                <button type="button" id="btn-cancelar-extremo" class="boton boton-secundario">
+                    ❌ Cancelar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= DIÁLOGO MODAL: ATAJOS DE TECLADO ================= -->
+    <div id="modal-atajos" class="modal-fondo oculto" role="dialog" aria-modal="true" aria-labelledby="modal-atajos-titulo">
+        <div class="modal-caja">
+            <h3 id="modal-atajos-titulo">Guía de Atajos de Teclado Globales</h3>
+            <p>Diseñado para una navegación 100% fluida mediante teclado y lectores de pantalla (NVDA, VoiceOver):</p>
+            <table class="tabla-atajos" aria-label="Lista de atajos de teclado">
+                <thead>
+                    <tr>
+                        <th scope="col">Tecla</th>
+                        <th scope="col">Función Accesible</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><kbd>T</kbd></td>
+                        <td>Anuncia el estado del tablero (extremos izquierdo y derecho, turno y pozo).</td>
+                    </tr>
+                    <tr>
+                        <td><kbd>R</kbd></td>
+                        <td>Roba una ficha del pozo (si es tu turno, no tienes fichas jugables y quedan fichas).</td>
+                    </tr>
+                    <tr>
+                        <td><kbd>P</kbd></td>
+                        <td>Pasa (si es tu turno, no tienes fichas jugables y el pozo está vacío).</td>
+                    </tr>
+                    <tr>
+                        <td><kbd>J</kbd></td>
+                        <td>Anuncia la lista completa de jugadores, equipos y fichas restantes de cada uno.</td>
+                    </tr>
+                    <tr>
+                        <td><kbd>Flechas ← / →</kbd></td>
+                        <td>Navega entre las fichas de tu mano con el teclado.</td>
+                    </tr>
+                    <tr>
+                        <td><kbd>Enter / Espacio</kbd></td>
+                        <td>Juega la ficha seleccionada.</td>
+                    </tr>
+                    <tr>
+                        <td><kbd>Escape</kbd></td>
+                        <td>Cierra cualquier ventana modal abierta.</td>
+                    </tr>
+                </tbody>
+            </table>
+            <button type="button" id="btn-cerrar-atajos" class="boton boton-secundario" style="margin-top: 1.5rem;">
+                Cerrar Guía
+            </button>
+        </div>
+    </div>
+
+    <script src="juego.js?v=20261121_1545"></script>
+</body>
+</html>
+

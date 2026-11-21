@@ -1,0 +1,12 @@
+# Credenciales y archivos sensibles
+conexion.php
+github_token.txt
+
+# Logs y temporales
+*.log
+Thumbs.db
+.DS_Store
+
+# Entornos de desarrollo
+.vscode/
+.idea/
