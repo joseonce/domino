@@ -159,7 +159,8 @@ try {
     $extremo_der = $ficha_salida[1];
 
     $desc_salida = describir_ficha_corta($ficha_salida);
-    $movimiento_salida = "{$nombre_salida} pone {$desc_salida}.";
+    $desc_mesa = "Mesa " . describir_ficha_corta([$extremo_izq, $extremo_der]);
+    $movimiento_salida = "{$nombre_salida} pone {$desc_salida}. {$desc_mesa}.";
 
     $ficha_salida_str = "{$ficha_salida[0]}-{$ficha_salida[1]}";
     $stmtH = $conexion->prepare("INSERT INTO domino_historial (partida_id, jugador_id, tipo_accion, ficha, extremo, descripcion, extremo_izq_momento, extremo_der_momento) VALUES (?, ?, 'salida', ?, 'centro', ?, ?, ?)");
@@ -176,6 +177,8 @@ try {
         'salida_jugador' => $nombre_salida,
         'ficha_salida' => $ficha_salida,
         'desc_salida' => $desc_salida,
+        'desc_mesa' => $desc_mesa,
+        'movimiento_salida' => $movimiento_salida,
         'anuncios_rebaraje' => array_column($anuncios_rebaraje, 'texto'),
         'siguiente_turno_id' => $siguiente_turno_id
     ]);

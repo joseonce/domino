@@ -108,7 +108,8 @@ try {
     }
 
     $desc_corta = describir_ficha_corta($ficha);
-    $mov_texto = "{$jugador['nombre']} pone {$desc_corta} por la {$extremo}.";
+    $desc_mesa = "Mesa " . describir_ficha_corta([$nuevo_izq, $nuevo_der]);
+    $mov_texto = "{$jugador['nombre']} pone {$desc_corta} por la {$extremo}. {$desc_mesa}.";
     $ficha_str = "{$ficha[0]}-{$ficha[1]}";
     $ahora = time();
 
@@ -141,6 +142,7 @@ try {
         'mensaje' => 'Ficha jugada con éxito.',
         'nuevo_izq' => $nuevo_izq,
         'nuevo_der' => $nuevo_der,
+        'desc_mesa' => $desc_mesa,
         'siguiente_turno_id' => $siguiente_id
     ]);
 

@@ -181,12 +181,15 @@
                     Dominó para Todos ha sido construido siguiendo las pautas de accesibilidad WCAG 2.1 AA para brindar una experiencia auditiva ágil, sin interrupciones molestas ni repeticiones innecesarias.
                 </p>
 
-                <h3>Dinámica de turno ágil y respuesta instantánea</h3>
+                <h3>Dinámica de turno ágil, extremos de la mesa y sincronización de voz</h3>
                 <p>
-                    Mientras los demás participantes (sean 1, 2 o 3 jugadores) realizan sus jugadas, el lector de pantalla anuncia de forma concisa cada movimiento (por ejemplo: <em>"Máquina 1 pone 6 5 por la derecha"</em>, <em>"Máquina 2 pasa"</em>).
+                    Cada vez que cualquier participante (humano o máquina) coloca una ficha en el tablero, el juego anuncia de inmediato el movimiento junto con los extremos resultantes de la mesa en formato conciso: <strong>"Mesa [izquierdo] [derecho]"</strong> (por ejemplo: <em>"Máquina 1 pone 3 5 por la derecha. Mesa 3 5."</em> o <em>"Pepe pone 6 6. Mesa 6 6."</em>).
                 </p>
                 <p>
-                    Al colocar tu ficha, el sistema confirma de inmediato con un limpio <strong>"Ok"</strong>, y la siguiente máquina responde de forma instantánea sin pausas artificiales.
+                    Cuando tú colocas una ficha, el sistema confirma de inmediato con un ágil <strong>"Ok. Mesa [izquierdo] [derecho]"</strong>. Si no tenías fichas jugables y robas del pozo una ficha que encaja, el juego la coloca automáticamente y anuncia la acción de forma íntegra: <strong>"Roba 3 5, coloca 3 5 por la derecha. Mesa 3 5."</strong>
+                </p>
+                <p>
+                    <strong>Sincronización temporal con el foco:</strong> El motor de audio calcula con exactitud los tiempos de locución según el número de palabras y pausas de puntuación, reservando un margen de cortesía acústica antes de situar el foco en el encabezado <em>"Tienes X fichas"</em>. De esta forma, el anuncio del foco nunca corta ni silencia la información previa del juego.
                 </p>
                 <p>
                     Cuando te vuelve a tocar el turno, el foco del lector se sitúa automáticamente en el encabezado de tu mano:

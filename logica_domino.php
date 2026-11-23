@@ -856,7 +856,8 @@ function procesar_turno_bot($conexion, $partida_id) {
 
         $ficha_str = "{$f_jugada[0]}-{$f_jugada[1]}";
         $desc_corta = describir_ficha_corta($f_jugada);
-        $mov_texto = "{$bot['nombre']} pone {$desc_corta} por la {$ext}.";
+        $desc_mesa = "Mesa " . describir_ficha_corta([$extremo_izq, $extremo_der]);
+        $mov_texto = "{$bot['nombre']} pone {$desc_corta} por la {$ext}. {$desc_mesa}.";
 
         $stmtUpB = $conexion->prepare("UPDATE domino_jugadores SET fichas = ? WHERE id = ?");
         $stmtUpB->execute([json_encode($nueva_mano), $bot['id']]);
@@ -937,7 +938,8 @@ function procesar_turno_bot($conexion, $partida_id) {
 
                     $ficha_str = "{$f_jugada[0]}-{$f_jugada[1]}";
                     $desc_corta = describir_ficha_corta($f_jugada);
-                    $mov_texto = "{$bot['nombre']} roba y pone {$desc_corta} por la {$ext}.";
+                    $desc_mesa = "Mesa " . describir_ficha_corta([$extremo_izq, $extremo_der]);
+                    $mov_texto = "{$bot['nombre']} roba y pone {$desc_corta} por la {$ext}. {$desc_mesa}.";
 
                     $stmtUpB = $conexion->prepare("UPDATE domino_jugadores SET fichas = ? WHERE id = ?");
                     $stmtUpB->execute([json_encode($nueva_mano), $bot['id']]);

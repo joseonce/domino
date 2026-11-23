@@ -122,13 +122,22 @@
         procesarSiguienteAnuncio();
     }
 
-    // Permite ejecutar una acción (como situar el foco en "Te quedan X fichas") justo después
+    function calcularTiempoLocucion(texto) {
+        if (!texto || typeof texto !== 'string') return 1200;
+        const palabras = texto.split(/\s+/).filter(Boolean).length;
+        const pausas = (texto.match(/[,.;:!?]/g) || []).length;
+        // 420ms por palabra + 350ms por cada signo de puntuación (pausa del sintetizador) + 600ms de margen de seguridad
+        const tiempoBase = (palabras * 420) + (pausas * 350) + 600;
+        return Math.max(1600, Math.min(8000, Math.max(tiempoBase, texto.length * 75)));
+    }
+
+    // Permite ejecutar una acción (como situar el foco en "Tienes X fichas") justo después
     // de que el lector termine de anunciar las jugadas de los rivales previos (1, 2 o 3 jugadores).
-    // Sin segundo de cortesía innecesario: se activa de inmediato en cuanto concluye la locución.
+    // Con pausa de cortesía para asegurar que el lector no sea interrumpido abruptamente.
     function ejecutarAlVaciarCola(fn) {
         if (!procesandoColaAnuncios && colaAnuncios.length === 0) {
             const restante = Math.max(0, tiempoFinEstimadoAnuncios - Date.now());
-            setTimeout(fn, restante + 50);
+            setTimeout(fn, restante + 450);
         } else {
             colaVaciaCallback = fn;
         }
@@ -158,7 +167,7 @@
         colaAnuncios.length = 0;
         procesandoColaAnuncios = false;
         colaVaciaCallback = null;
-        tiempoFinEstimadoAnuncios = Date.now() + 450;
+        tiempoFinEstimadoAnuncios = Date.now() + calcularTiempoLocucion(textoLimpio);
 
         // 2. Limpiar región polite inmediatamente
         if (DOM.polite) {
@@ -180,11 +189,22 @@
             if (colaVaciaCallback) {
                 const cb = colaVaciaCallback;
                 colaVaciaCallback = null;
-                // Ejecución inmediata al concluir la cola de anuncios
-                setTimeout(cb, 50);
+                // Pausa de cortesía tras concluir la última locución antes de situar el foco en la mano
+                setTimeout(cb, 450);
             }
             return;
         }
+
+        const ahora = Date.now();
+        if (ahora < tiempoFinEstimadoAnuncios) {
+            procesandoColaAnuncios = true;
+            setTimeout(() => {
+                procesandoColaAnuncios = false;
+                procesarSiguienteAnuncio();
+            }, tiempoFinEstimadoAnuncios - ahora + 150);
+            return;
+        }
+
         procesandoColaAnuncios = true;
 
         const siguiente = colaAnuncios.shift();
@@ -192,18 +212,14 @@
             DOM.polite.textContent = '';
             setTimeout(() => {
                 DOM.polite.textContent = siguiente;
-                // Duración ajustada a la velocidad de habla normal en español
-                const palabras = siguiente.split(/\s+/).filter(Boolean).length;
-                const duracionEstimada = Math.max(palabras * 300, siguiente.length * 52);
-                const esperaMs = Math.max(1200, Math.min(4500, duracionEstimada));
-
+                const esperaMs = calcularTiempoLocucion(siguiente);
                 tiempoFinEstimadoAnuncios = Date.now() + esperaMs;
 
                 setTimeout(() => {
                     procesandoColaAnuncios = false;
                     procesarSiguienteAnuncio();
                 }, esperaMs);
-            }, 50);
+            }, 60);
         } else {
             procesandoColaAnuncios = false;
             procesarSiguienteAnuncio();
@@ -1001,7 +1017,7 @@
                     sonidoFichaJugada();
 
                     const esMio = estado.miJugador && Number(mov.jugador_id) === Number(estado.miJugador.id);
-                    const esAvisoGeneral = mov.descripcion && (mov.descripcion.includes('5 dobles') || mov.descripcion.includes('barajar'));
+                    const esAvisoGeneral = (mov.tipo_accion === 'salida') || (mov.descripcion && (mov.descripcion.includes('5 dobles') || mov.descripcion.includes('barajar')));
                     if (!esMio || esAvisoGeneral) {
                         if (datos.nuevos_movimientos.length <= 2 || mov === datos.nuevos_movimientos[datos.nuevos_movimientos.length - 1] || esAvisoGeneral) {
                             anunciarPolite(mov.descripcion);
@@ -1380,7 +1396,7 @@
         if (primerBoton) primerBoton.focus();
     }
 
-    async function enviarJugada(ficha, extremo) {
+    async function enviarJugada(ficha, extremo, esRobo = false) {
         try {
             const resp = await fetch('jugar.php', {
                 method: 'POST',
@@ -1395,7 +1411,19 @@
             const datos = await resp.json();
 
             if (datos.success) {
-                interrumpirYAnunciar("Ok");
+                const nuevoIzq = (datos.nuevo_izq !== null && datos.nuevo_izq !== undefined) ? datos.nuevo_izq : estado.partida.extremo_izq;
+                const nuevoDer = (datos.nuevo_der !== null && datos.nuevo_der !== undefined) ? datos.nuevo_der : estado.partida.extremo_der;
+                const mesaTexto = `Mesa ${nombrePalo(nuevoIzq)} ${nombrePalo(nuevoDer)}`;
+                
+                let locucion = '';
+                if (esRobo) {
+                    const descFicha = describirFichaCorta(ficha);
+                    locucion = `Roba ${descFicha}, coloca ${descFicha} por la ${extremo}. ${mesaTexto}.`;
+                } else {
+                    locucion = `Ok. ${mesaTexto}.`;
+                }
+
+                interrumpirYAnunciar(locucion);
                 await consultarEstado();
                 setTimeout(consultarEstado, 900);
             } else {
@@ -1434,7 +1462,7 @@
                     } else {
                         ext = 'derecha';
                     }
-                    await enviarJugada(datos.ficha, ext);
+                    await enviarJugada(datos.ficha, ext, true);
                 } else {
                     anunciarPolite(datos.mensaje);
                     await consultarEstado();
