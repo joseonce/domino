@@ -123,12 +123,12 @@
     }
 
     function calcularTiempoLocucion(texto) {
-        if (!texto || typeof texto !== 'string') return 1200;
+        if (!texto || typeof texto !== 'string') return 1000;
         const palabras = texto.split(/\s+/).filter(Boolean).length;
         const pausas = (texto.match(/[,.;:!?]/g) || []).length;
-        // 420ms por palabra + 350ms por cada signo de puntuación (pausa del sintetizador) + 600ms de margen de seguridad
-        const tiempoBase = (palabras * 420) + (pausas * 350) + 600;
-        return Math.max(1600, Math.min(8000, Math.max(tiempoBase, texto.length * 75)));
+        // Calibrado con 1000 ms menos para agilizar la toma de foco del encabezado
+        const tiempoBase = (palabras * 340) + (pausas * 250) + 200;
+        return Math.max(1200, Math.min(7000, Math.max(tiempoBase, texto.length * 58)));
     }
 
     // Permite ejecutar una acción (como situar el foco en "Tienes X fichas") justo después
@@ -137,7 +137,7 @@
     function ejecutarAlVaciarCola(fn) {
         if (!procesandoColaAnuncios && colaAnuncios.length === 0) {
             const restante = Math.max(0, tiempoFinEstimadoAnuncios - Date.now());
-            setTimeout(fn, restante + 450);
+            setTimeout(fn, restante + 150);
         } else {
             colaVaciaCallback = fn;
         }
@@ -190,7 +190,7 @@
                 const cb = colaVaciaCallback;
                 colaVaciaCallback = null;
                 // Pausa de cortesía tras concluir la última locución antes de situar el foco en la mano
-                setTimeout(cb, 450);
+                setTimeout(cb, 150);
             }
             return;
         }
