@@ -1418,7 +1418,7 @@
                 let locucion = '';
                 if (esRobo) {
                     const descFicha = describirFichaCorta(ficha);
-                    locucion = `Roba ${descFicha}, coloca ${descFicha} por la ${extremo}. ${mesaTexto}.`;
+                    locucion = `Roba y coloca ${descFicha} por la ${extremo}. ${mesaTexto}.`;
                 } else {
                     locucion = `Ok. ${mesaTexto}.`;
                 }
